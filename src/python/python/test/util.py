@@ -122,6 +122,15 @@ def check_vectorization(kernel, arg_dims = [], width = 125, atol=1e-6,
     spectral_variant = mi.variant().replace("scalar", "")
     variants = list(set(mi.variants()) & set([m + spectral_variant for m in modes]))
 
+    # Try to set variants to see if they are available
+    original_variant = mi.variant()
+    for variant in variants:
+        try:
+            mi.set_variant(variant)
+        except Exception:
+            variants.remove(variant)
+    mi.set_variant(original_variant)
+
     if not variants:
         pytest.skip(f"No vectorized variants available")
 

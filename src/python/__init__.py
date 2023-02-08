@@ -306,10 +306,25 @@ class MitsubaModule(types.ModuleType):
         if getattr(_tls, 'variant', None) == value:
             return
 
+        if value.startswith(('llvm', 'cuda')):
+            backend_name = value[:4]
+            if backend_name == 'llvm':
+                backend = _dr.JitBackend.LLVM
+            else:
+                backend = _dr.JitBackend.CUDA
+
+            if not _dr.has_backend(backend):
+                raise ImportError('Requested an unsupported variant "%s". '
+                                  'Although the variant was compiled, the '
+                                  'Dr.Jit backend for this variant cannot '
+                                  'be enabled on your computer. Try running '
+                                  'some Dr.Jit code to get more details.'
+                                  % (value))
+
         _tls.variant = value
 
         # Automatically load/reload and register Python integrators for AD variants
-        if value.startswith(('llvm_', 'cuda_')):
+        if value.startswith(('llvm', 'cuda')):
             import sys
             if 'mitsuba.ad.integrators' in _sys.modules:
                 _reload(_sys.modules['mitsuba.ad.integrators'])
