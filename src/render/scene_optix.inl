@@ -233,7 +233,7 @@ size_t init_optix_config(bool has_meshes, bool has_others, bool has_instances,
             config.custom_shapes_program_names[2*i+1] = strdup(("__intersection__" + name).c_str());
 
 
-            if (name == "bspline") {
+            if (name == "bsplinecurve") {
                 pgd[2+i].hitgroup.moduleCH            = config.module;
                 pgd[2+i].hitgroup.entryFunctionNameCH = config.custom_shapes_program_names[2*i];
                 pgd[2+i].hitgroup.moduleIS            = config.cubicCurveModule;

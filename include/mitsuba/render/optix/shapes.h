@@ -8,8 +8,8 @@
 #include "mesh.cuh"
 #include "rectangle.cuh"
 #include "sphere.cuh"
-#include "bspline_curve.cuh"
-#include "linear_curve.cuh"
+#include "bsplinecurve.cuh"
+#include "linearcurve.cuh"
 #else
 
 #include <drjit-core/optix.h>
@@ -244,9 +244,9 @@ void prepare_ias(const OptixDeviceContext &context,
     };
 
     build_optix_instance(accel.meshes);
+    build_optix_instance(accel.custom_shapes);
     build_optix_instance(accel.bspline_curves);
     build_optix_instance(accel.linear_curves);
-    build_optix_instance(accel.custom_shapes);
 
     // Apply the same process to every shape instances
     for (Shape* shape: shapes) {

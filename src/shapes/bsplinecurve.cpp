@@ -35,7 +35,7 @@ NAMESPACE_BEGIN(mitsuba)
  */
 
 template <typename Float, typename Spectrum>
-class BSpline final : public Shape<Float, Spectrum> {
+class BSplineCurve final : public Shape<Float, Spectrum> {
 public:
     MI_IMPORT_BASE(Shape, m_to_world, m_to_object, m_is_instance, initialize,
                    mark_dirty, get_children_string, parameters_grad_enabled)
@@ -53,7 +53,7 @@ public:
     using Index = typename CoreAliases::UInt32;
 
 
-    BSpline(const Properties &props) : Base(props) {
+    BSplineCurve(const Properties &props) : Base(props) {
 
         auto fs = Thread::thread()->file_resolver();
         fs::path file_path = fs->resolve(props.string("filename"));
@@ -606,6 +606,6 @@ private:
 #endif
 };
 
-MI_IMPLEMENT_CLASS_VARIANT(BSpline, Shape)
-MI_EXPORT_PLUGIN(BSpline, "BSpline intersection primitive");
+MI_IMPLEMENT_CLASS_VARIANT(BSplineCurve, Shape)
+MI_EXPORT_PLUGIN(BSplineCurve, "B-spline curve intersection primitive");
 NAMESPACE_END(mitsuba)
